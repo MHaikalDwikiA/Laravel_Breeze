@@ -8,7 +8,7 @@
                         <div class="flex">
                             <div class="flex-shrink-0 mr-3">
                                 <img class="w-10 h-10 rounded-full" src="{{Auth::user()->gravatar()}}"
-                                    alt="{{ Auth::user()->name }}"> 
+                                    alt="{{ Auth::user()->name }}">
                             </div>
                             <div class="w-full">
                                 <div class="font-semibold">
@@ -26,49 +26,14 @@
                     </form>
                 </x-card>
                 <div class="space-y-6 mt-5">
-                        @foreach ($statuses as $status)
-                        <x-card>
-                            <div class="flex">
-                                <div class="flex-shrink-0 mr-3">
-                                    <img class="w-10 h-10 rounded-full" src="{{$status->user->gravatar()}}"
-                                        alt="{{ $status->user->name }}">
-                                </div>
-                                <div>
-                                    <div class="font-semibold">
-                                        {{ $status->user->name }}
-                                    </div>
-                                    <div class="leading-relaxed">
-                                        {{ $status->body }}
-                                    </div>
-                                    <div class="text-sm text-gray-500">
-                                        {{ $status->created_at->diffForHumans() }}
-                                    </div>
-                                </div>
-                            </div>
-                        </x-card>
-                        @endforeach
+                        <x-statuses :statuses="$statuses"></x-statuses>
                 </div>
             </div>
             <div class="col-span-5">
                 <x-card>
                     <h1 class="font-semibold mb-5">Recently Follow</h1>
-                    <div class="space y-5">
-                        @foreach (Auth::user()->follows()->limit(5)->get() as $user)
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 mr-3">
-                                    <img class="w-10 h-10 rounded-full" src="{{$user->gravatar()}}"
-                                        alt="{{ $status->user->name }}">
-                                </div>
-                                <div>
-                                    <div class="font-semibold">
-                                        {{ $user->name }}
-                                    </div>
-                                    <div class="text-sm text-gray-500">
-                                        {{ $user->pivot->created_at->diffForHumans() }}
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                    <div class="space-y-5">
+                        <x-following :users="Auth::user()->follows()->limit(3)->get()"></x-following>
                     </div>
                 </x-card>
             </div>
