@@ -3,11 +3,11 @@
         <div class="grid grid-cols-12 gap-6">
             <div class="col-span-7">
                 <x-card>
-                    <form action="{{route('statuses.store')}}" method="post">
+                    <form action="{{ route('statuses.store') }}" method="post">
                         @csrf
                         <div class="flex">
                             <div class="flex-shrink-0 mr-3">
-                                <img class="w-10 h-10 rounded-full" src="{{Auth::user()->gravatar()}}"
+                                <img class="w-10 h-10 rounded-full" src="{{ Auth::user()->gravatar() }}"
                                     alt="{{ Auth::user()->name }}">
                             </div>
                             <div class="w-full">
@@ -26,17 +26,22 @@
                     </form>
                 </x-card>
                 <div class="space-y-6 mt-5">
-                        <x-statuses :statuses="$statuses"></x-statuses>
+                    <x-statuses :statuses="$statuses"></x-statuses>
                 </div>
             </div>
-            <div class="col-span-5">
-                <x-card>
-                    <h1 class="font-semibold mb-5">Recently Follow</h1>
-                    <div class="space-y-5">
-                        <x-following :users="Auth::user()->follows()->limit(3)->get()"></x-following>
-                    </div>
-                </x-card>
-            </div>
+            @if (Auth::user()->follows()->count())
+                <div class="col-span-5">
+                    <x-card>
+                        <h1 class="font-semibold mb-5">Recently Follow</h1>
+                        <div class="space-y-5">
+                            <x-following :users="Auth::user()
+                                ->follows()
+                                ->limit(3)
+                                ->get()"></x-following>
+                        </div>
+                    </x-card>
+                </div>
+            @endif
         </div>
     </x-container>
 </x-app-layout>
